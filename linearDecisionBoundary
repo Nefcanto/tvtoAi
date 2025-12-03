@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+import os
+
+np.random.seed(0)
+N = 200
+x1 = np.random.randn(N, 2) + np.array([2, 2])
+x0 = np.random.randn(N, 2) + np.array([-2, -2])
+
+X = np.vstack([x1, x0])
+y = np.array([1]*N + [0]*N)
+
+clf = LogisticRegression()
+clf.fit(X, y)
+
+w = clf.coef_[0]
+b = clf.intercept_[0]
+
+x_vals = np.linspace(-6, 6, 100)
+y_vals = -(w[0]*x_vals + b) / w[1]
+
+plt.scatter(X[:,0], X[:,1], c=y)
+plt.plot(x_vals, y_vals)
+path = '/tmp/tvtoLinearDecisionBoundary.png'
+plt.savefig(path, dpi=150, bbox_inches='tight')
+os.system(f'xdg-open {path}')
