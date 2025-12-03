@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
 sigmoid = lambda z: 1 / (1 + np.exp(-z))
 
@@ -12,5 +13,8 @@ plt.plot(z, s)
 plt.xlabel('z')
 plt.ylabel('sigmoid(z)')
 plt.grid(True)
-plt.show()
 
+path = '/tmp/tvtoSigmoidFunction.png'
+plt.savefig(path, dpi=150, bbox_inches='tight')
+
+os.system(f'xdg-open {path}')
