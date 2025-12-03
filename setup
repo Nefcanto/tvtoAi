@@ -1,0 +1,2 @@
+pip install numpy --break-system-packages
+pip install matplotlib --break-system-packages
