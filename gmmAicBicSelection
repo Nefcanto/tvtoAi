@@ -1,0 +1,26 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.mixture import GaussianMixture
+from sklearn.datasets import make_blobs
+import os
+
+X, _ = make_blobs(n_samples=300, centers=3, random_state=42)
+
+aic_scores = []
+bic_scores = []
+components_range = range(1, 11)
+
+for n_components in components_range:
+    gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=42)
+    gmm.fit(X)
+    aic_scores.append(gmm.aic(X))
+    bic_scores.append(gmm.bic(X))
+
+plt.plot(components_range, aic_scores, label='AIC')
+plt.plot(components_range, bic_scores, label='BIC')
+plt.xlabel('Number of Components')
+plt.ylabel('Score')
+plt.legend()
+path = '/tmp/tvtoGmmAicBicSelection.png'
+plt.savefig(path, dpi=150, bbox_inches='tight')
+os.system(f'xdg-open {path}')
