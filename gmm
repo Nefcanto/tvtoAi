@@ -1,0 +1,14 @@
+from sklearn.mixture import GaussianMixture
+from sklearn.datasets import make_blobs
+import numpy as np
+
+X, _ = make_blobs(n_samples=300, centers=3, random_state=42)
+
+gmm = GaussianMixture(n_components=3, covariance_type='full', random_state=42)
+gmm.fit(X)
+
+probabilities = gmm.predict_proba(X)
+labels = gmm.predict(X)
+
+print(probabilities[:5])
+print(labels[:5])
