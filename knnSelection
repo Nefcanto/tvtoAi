@@ -1,0 +1,36 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import cross_val_score
+from sklearn.datasets import make_classification
+import os
+
+X, y = make_classification(
+    n_samples=400,
+    n_features=4,
+    n_informative=3,
+    n_redundant=0,
+    random_state=42
+)
+
+ks = [1, 3, 5, 7, 9, 11]
+scores = []
+
+for k in ks:
+    clf = make_pipeline(
+        StandardScaler(),
+        KNeighborsClassifier(n_neighbors=k, weights='distance')
+    )
+    score = cross_val_score(clf, X, y, cv=5, scoring='accuracy').mean()
+    scores.append(score)
+
+plt.plot(ks, scores, marker='o')
+plt.xlabel('K')
+plt.ylabel('CV Accuracy')
+plt.title('KNN — Choosing Optimal K')
+
+path = '/tmp/tvtoKnnSelection.png'
+plt.savefig(path, dpi=150, bbox_inches='tight')
+os.system(f'xdg-open {path}')
